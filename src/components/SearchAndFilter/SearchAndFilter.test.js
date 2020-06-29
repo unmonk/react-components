@@ -3,6 +3,28 @@ import React from "react";
 
 import SearchAndFilter from "./SearchAndFilter";
 
+const sampleData = [
+  {
+    id: 0,
+    heading: "Clouds",
+    chips: [{ value: "Google" }, { value: "AWS" }, { value: "Azure" }],
+  },
+  {
+    id: 1,
+    heading: "Regions",
+    chips: [
+      { value: "us-east1" },
+      { value: "us-east2" },
+      { value: "us-east3" },
+    ],
+  },
+  {
+    id: 3,
+    heading: "Owner",
+    chips: [{ value: "foo" }, { value: "bar" }, { value: "baz" }],
+  },
+];
+
 describe("Search and filter", () => {
   it("renders", () => {
     const wrapper = shallow(<SearchAndFilter />);
@@ -26,7 +48,11 @@ describe("Search and filter", () => {
   it("shows panel on focus", () => {
     const mockOnChange = jest.fn();
     const wrapper = mount(
-      <SearchAndFilter externallyControlled onChange={mockOnChange} />
+      <SearchAndFilter
+        externallyControlled
+        onChange={mockOnChange}
+        filterPanelData={sampleData}
+      />
     );
     expect(
       wrapper.find(".search-and-filter__panel").prop("aria-hidden")
@@ -40,7 +66,11 @@ describe("Search and filter", () => {
   it("shows panel on click", () => {
     const mockOnChange = jest.fn();
     const wrapper = mount(
-      <SearchAndFilter externallyControlled onChange={mockOnChange} />
+      <SearchAndFilter
+        externallyControlled
+        onChange={mockOnChange}
+        filterPanelData={sampleData}
+      />
     );
     expect(
       wrapper.find(".search-and-filter__panel").prop("aria-hidden")

@@ -37,6 +37,27 @@ state and the `value` from state.
       onChange={(searchTerm) => {
         console.log("onChange: ", searchTerm);
       }}
+      filterPanelData={[
+        {
+          id: 0,
+          heading: "Clouds",
+          chips: [{ value: "Google" }, { value: "AWS" }, { value: "Azure" }],
+        },
+        {
+          id: 1,
+          heading: "Regions",
+          chips: [
+            { value: "us-east1" },
+            { value: "us-east2" },
+            { value: "us-east3" },
+          ],
+        },
+        {
+          id: 2,
+          heading: "Owner",
+          chips: [{ value: "foo" }, { value: "bar" }, { value: "baz" }],
+        },
+      ]}
     />
   </Story>
 </Preview>

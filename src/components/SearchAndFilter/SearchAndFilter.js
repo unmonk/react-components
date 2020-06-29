@@ -3,10 +3,15 @@ import PropTypes from "prop-types";
 
 import SearchBox from "../SearchBox";
 import ContextualMenu from "../ContextualMenu";
+import FilterPanelSection from "./FilterPanelSection";
 
 import "./SearchAndFilter.scss";
 
-const SearchAndFilter = ({ externallyControlled = false, onChange }) => {
+const SearchAndFilter = ({
+  externallyControlled = false,
+  onChange,
+  filterPanelData,
+}) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [filterPanelHidden, setFilterPanelHidden] = useState(true);
   const filterPanelRef = useRef();
@@ -27,7 +32,7 @@ const SearchAndFilter = ({ externallyControlled = false, onChange }) => {
 
     const mouseDown = (e) => {
       // Check if click is outside of filter panel
-      if (!filterPanelRef.current.contains(e.target)) {
+      if (!filterPanelRef?.current?.contains(e.target)) {
         // If so, close the panel
         closePanel();
       }
@@ -62,19 +67,41 @@ const SearchAndFilter = ({ externallyControlled = false, onChange }) => {
         onFocus={() => setFilterPanelHidden(false)}
         value={searchTerm}
       />
-      <div
-        className="search-and-filter__panel"
-        ref={filterPanelRef}
-        aria-hidden={filterPanelHidden}
-      >
-        <ContextualMenu>Filter panel content</ContextualMenu>
-      </div>
+      {filterPanelData && (
+        <div
+          className="search-and-filter__panel"
+          ref={filterPanelRef}
+          aria-hidden={filterPanelHidden}
+        >
+          <ContextualMenu>
+            {filterPanelData.map((filterPanelSectionData) => {
+              return (
+                <div key={filterPanelSectionData.id}>
+                  <FilterPanelSection data={filterPanelSectionData} />
+                </div>
+              );
+            })}
+          </ContextualMenu>
+        </div>
+      )}
     </div>
   );
 };
 
 SearchAndFilter.propTypes = {
   externallyControlled: PropTypes.bool,
+  filterPanelData: PropTypes.arrayOf(
+    PropTypes.shape({
+      heading: PropTypes.string,
+      chips: PropTypes.arrayOf(
+        PropTypes.shape({
+          id: PropTypes.number,
+          lead: PropTypes.string,
+          value: PropTypes.string,
+        })
+      ),
+    })
+  ),
   onChange: PropTypes.func,
   onSubmit: PropTypes.func,
 };
